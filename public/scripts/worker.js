@@ -10,6 +10,7 @@ var settings = {
 
 self.on('init', function(id) {
     settings.id = id;
+    self.emit('state-change', settings.busy);
 });
 
 self.on('work', function(data) {

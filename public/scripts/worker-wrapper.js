@@ -18,7 +18,11 @@ EventIO.prototype._observer = function(message) {
 }
 
 EventIO.prototype.on = function(event, handler) {
-    this.callbacks[event] = handler;
+    if (handler === null && event in this.callbacks) {
+        delete this.callbacks[event];
+    } else {
+        this.callbacks[event] = handler;
+    }
 }
 
 

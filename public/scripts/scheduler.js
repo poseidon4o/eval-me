@@ -1,5 +1,3 @@
-
-
 /**
  * Provides simple pool of web workers
  * @param {int} workers Number of workers in pool
@@ -15,7 +13,7 @@ function Scheduler (workers) {
         this.workers.push({
             id: c,
             worker: worker,
-            busy: false 
+            busy: true 
         });
 
         worker.emit('init', c);
@@ -34,10 +32,15 @@ Scheduler.prototype._state_change = function(id, state) {
 Scheduler.prototype.eval = function(data, callback) {
     for (var c = 0; c < this.workers.length; ++c) {
         if (!this.workers[c].busy) {
+            this._state_change(c, true);
             this.workers[c].worker.on('result', function(response) {
                 callback(response.result, response.error);
-            });
+                this.workers[c].worker.on('result', null);
+            }.bind(this));
             this.workers[c].worker.emit('work', '(' + data + ')()');
+
+            return;
         }
     }
+    throw 'No available workers';
 }

@@ -6,22 +6,27 @@ html
         script(src="public/scripts/worker-wrapper.js")
         script(src="public/scripts/scheduler.js")
         script.
-            var sch = new Scheduler(8);
-            sch.eval(function __z() {
-                var res = 0;
-                for (var r = 0; r < 3; ++r) {
-                    res = 0;    
-                    for (var c = 0; c < 100000000; ++c) {
-                        res += Math.sqrt(c);
-                    }
+            var WORKERS = 8;
+            var sch = new Scheduler(WORKERS);
+            setTimeout(function() {
+                for (var work = 0; work < WORKERS; ++work) {
+                    sch.eval(function __z() {
+                        var res = 0;
+                        for (var r = 0; r < 3; ++r) {
+                            res = 0;    
+                            for (var c = 0; c < 100000000; ++c) {
+                                res += Math.sqrt(c);
+                            }
+                        }
+                        return res;
+                    }.toString(), function(result, error) {
+                        if (!error) {
+                            console.log('Result = ', result);
+                        } else {
+                            console.log('Error = ', error);
+                        }
+                    });
                 }
-                return res;
-            }.toString(), function(result, error) {
-                if (!error) {
-                    console.log('Result = ', result);
-                } else {
-                    console.log('Error = ', error);
-                }
-            });
+            }, 500);
     body
         block content
