@@ -1,3 +1,9 @@
+
+
+/**
+ * Provides simple pool of web workers
+ * @param {int} workers Number of workers in pool
+ */
 function Scheduler (workers) {
     if (!window.Worker) {
         throw 'Web Workers not supported!';
