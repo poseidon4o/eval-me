@@ -7,7 +7,6 @@ var settings = {
     busy: false
 };
 
-
 self.on('init', function(id) {
     settings.id = id;
     self.emit('state-change', settings.busy);

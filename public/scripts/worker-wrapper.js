@@ -45,6 +45,9 @@ WorkerWrapper.prototype.emit = function(event, data) {
     this.worker.postMessage({ name: event, data: data });
 }
 
+WorkerWrapper.prototype.terminate = function() {
+    this.worker.terminate();
+};
 
 /**
  * Provides 'inside' web worker interface to communicate with WorkerWrapper
