@@ -17,7 +17,7 @@ $(function() {
                 console.log('Starting job');
                 scheduler.eval(job.data, function(result) {
                     console.log('Coputed', job.data, result);
-                    $.post('/api/jobs/' + job._id, {
+                    $.post('/api/jobs/' + job.id, {
                         result: result
                     }).done(function(resp) {
                         console.log('updated');
