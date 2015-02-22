@@ -18,9 +18,15 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-app.use('/api', require('./routers/api.js'));
+app.use('/api/jobs', require('./routers/jobs.js'));
+app.use('/api/results', require('./routers/results.js'));
+
 app.get('/jobs', function(req, res) {
     res.render('jobs');
+});
+
+app.get('/results', function(req, res) {
+    res.render('results');
 });
 
 

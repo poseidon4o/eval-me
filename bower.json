@@ -5,7 +5,6 @@
   "authors": [
     "poseidon4o <poseidon4o.random@gmail.com>"
   ],
-  "license": "MIT",
   "private": true,
   "ignore": [
     "**/.*",
