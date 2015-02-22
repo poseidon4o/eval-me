@@ -32,6 +32,14 @@ Scheduler.prototype._state_change = function(id, state) {
     this.workers[id].busy = state;
 }
 
+Scheduler.prototype.free = function() {
+    var free = 0;
+    this.workers.forEach(function(worker) {
+        free += worker.busy == false;
+    });
+    return free;
+};
+
 Scheduler.prototype.eval = function(data, callback) {
     for (var c = 0; c < this.workers.length; ++c) {
         if (!this.workers[c].busy) {
