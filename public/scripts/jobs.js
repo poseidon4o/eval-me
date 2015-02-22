@@ -1,24 +1,29 @@
 $(function() {
     function do_work () {
-        if (!scheduler.free()) {
+        var workers = scheduler.free();
+        if (!workers) {
             console.log('No free workers');
             return;
         }
 
-        $.get('/api/jobs/1').done(function(jobs) {
+        $.get('/api/jobs/' + workers).done(function(jobs) {
             if (!jobs.length) {
                 console.log('Server has no jobs');
                 return;
             }
-            var job = jobs[0];
-            scheduler.eval(job.data, function(result) {
-                console.log('Coputed', job.data, result);
-                $.post('/api/jobs/' + job._id, {
-                    result: result
-                }).done(function(resp) {
-                    console.log('updated');
-                }).fail(function(err) {
-                    console.log('fail', err);
+
+            console.log('Got ' + jobs.length + ' jobs');
+            jobs.forEach(function(job) {  
+                console.log('Starting job');
+                scheduler.eval(job.data, function(result) {
+                    console.log('Coputed', job.data, result);
+                    $.post('/api/jobs/' + job._id, {
+                        result: result
+                    }).done(function(resp) {
+                        console.log('updated');
+                    }).fail(function(err) {
+                        console.log('fail', err);
+                    });
                 });
             });
         }).fail(function(err) {
