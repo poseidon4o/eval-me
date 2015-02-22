@@ -1,0 +1,13 @@
+extends ./layout.jade
+
+block head
+    script(src='public/scripts/jobs.js')
+
+block content
+    div
+        form(id="post-new-job")
+            textarea(type="text", name="source")
+            input(type="submit")
+    hr
+    div
+        button(id="run-job") Run

@@ -3,25 +3,10 @@ html
     head
         title Eval me
 
+        script(src="bower_components/jquery/dist/jquery.js")
         script(src="public/scripts/worker-wrapper.js")
         script(src="public/scripts/scheduler.js")
-        script.
-            var WORKERS = 1;
-            var sch = new Scheduler(WORKERS);
-            setTimeout(function() {
-                for (var work = 0; work < WORKERS; ++work) {
-                    sch.eval(function __z() {
-                        setInterval(function() {
-                            console.log('sssssssssss');
-                        }, 100);
-                    }.toString(), function(result, error) {
-                        if (!error) {
-                            console.log('Result = ', result);
-                        } else {
-                            console.log('Error = ', error);
-                        }
-                    });
-                }
-            }, 500);
+            
+        block head
     body
         block content

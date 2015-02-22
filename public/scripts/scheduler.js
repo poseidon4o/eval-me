@@ -13,6 +13,7 @@ function Scheduler (workers) {
             worker: null,
             busy: true 
         });
+        this._make_worker(c);
     }
 
     // this will terminate the worker upon result/error
@@ -22,8 +23,8 @@ function Scheduler (workers) {
 
 Scheduler.prototype._make_worker = function(idx) {
     this.workers[idx].worker = new WorkerWrapper('public/scripts/worker.js');
-    worker.on('state-change', this._state_change.bind(this, idx));
-    worker.emit('init', idx);
+    this.workers[idx].worker.on('state-change', this._state_change.bind(this, idx));
+    this.workers[idx].worker.emit('init', idx);
 };
 
 Scheduler.prototype._state_change = function(id, state) {
@@ -54,3 +55,8 @@ Scheduler.prototype.eval = function(data, callback) {
     }
     throw 'No available workers';
 }
+
+
+
+var WORKERS = 8;
+var scheduler = new Scheduler(WORKERS);
